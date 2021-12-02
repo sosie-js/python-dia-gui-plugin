@@ -67,10 +67,9 @@ if "linux" in sys.platform :
     COMMENTS+="\nDIA_BASE_PATH="+DIA_BASE_PATH
     COMMENTS+="\nPYTHONPATH="+ PYTHONPATH
 
-WEBSITE="https://sosie-js.github.io/python-dia/mock/"   
+WEBSITE="https://sosie-js.github.io/python-dia/gui/"   
    
-# from "/usr/share/dia/ui/display-ui.xml"
-ui_menubar="/usr/share/dia/ui/display-ui.xml"
+
 
 
 #====
@@ -180,6 +179,8 @@ def register_stock_icons():
     _add_stock_icon_name (factory, DIA_STOCK_OBJECTS_LAYER_ABOVE, "dia-layer-move-above");
     _add_stock_icon_name (factory, DIA_STOCK_OBJECTS_LAYER_BELOW, "dia-layer-move-below");
     _add_stock_icon_name (factory, DIA_STOCK_LAYERS, "dia-layers");
+
+    _add_stock_icon_name (factory,"dia-gui-logo","diamock_logo")
 
 register_stock_icons()
 
@@ -452,7 +453,7 @@ toolmenu_shape_action_entries = (
 )
 
 
-
+ui_menubar="/usr/share/dia/ui/display-ui.xml"
 ui_menubar_info = """
 <ui>
 	<menubar name="DisplayMenu">
@@ -1216,8 +1217,13 @@ class diamock_gui:
 
         self.window = window = Gtk.Window()
         window.set_title(PROGRAM_NAME)
-        window.set_icon_name('gtk-open')
         
+        #window.set_icon_name("dia-gui-logo")
+        dirname = os.path.abspath(os.path.dirname(__file__))
+        filename = os.path.join(dirname,"app",LOGO)
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(filename, 64, 64)    
+        transparent = pixbuf.add_alpha(True, 0xff, 0xff, 0xff)
+        window.set_icon(transparent)
         
         
         
